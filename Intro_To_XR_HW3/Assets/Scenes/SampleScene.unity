@@ -490,23 +490,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &586101597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586101589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 831454654b74daa41b9f08f79d9889bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearObjects: []
-  grabbedObject: {fileID: 0}
-  action: {fileID: -1289947363739713011, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
-  doubleRotationEnabled: 0
-  toggleRotationAction: {fileID: 0}
 --- !u!4 &586101602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 202364688, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -524,6 +507,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af420e59b638fe5499d26504d6a61fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  hand: {fileID: 948527922}
+  gripAction: {fileID: -1289947363739713011, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  triggerAction: {fileID: 2526168894431210536, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  nearObjects: []
+  grabbedObject: {fileID: 0}
+  grabAction: {fileID: -1289947363739713011, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  doubleRotationEnabled: 0
+  toggleRotationAction: {fileID: -631344258065148156, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
 --- !u!1 &586967269
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &730769971
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -896,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff9780e153ff214daa31b0488884780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: {fileID: -1644001223835636349, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  action: {fileID: -5405649100492650258, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
 --- !u!1 &773190229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,6 +1005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a854b00bc3c22064db4e0c72eee7d0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hand
+  speed: 10
 --- !u!95 &948527923
 Animator:
   serializedVersion: 7
@@ -1285,6 +1277,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 6b07ed1c8cad009439042b3e60168413, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2b8c3ddc20e63d8478e39437d61ad4e2, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 6b07ed1c8cad009439042b3e60168413, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1310,6 +1310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a854b00bc3c22064db4e0c72eee7d0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  speed: 10
 --- !u!1 &1779104019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,23 +1650,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1936219314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936219306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 831454654b74daa41b9f08f79d9889bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearObjects: []
-  grabbedObject: {fileID: 0}
-  action: {fileID: -5194266436686895582, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
-  doubleRotationEnabled: 0
-  toggleRotationAction: {fileID: 0}
 --- !u!4 &1936219319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1670256625, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -1683,6 +1667,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af420e59b638fe5499d26504d6a61fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandController
+  hand: {fileID: 1769246979}
+  gripAction: {fileID: -5194266436686895582, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  triggerAction: {fileID: -5684558904543120851, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  nearObjects: []
+  grabbedObject: {fileID: 0}
+  grabAction: {fileID: -5194266436686895582, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  doubleRotationEnabled: 0
+  toggleRotationAction: {fileID: -631344258065148156, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
 --- !u!1001 &1964602097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1790,9 +1782,6 @@ PrefabInstance:
       addedObject: {fileID: 777888649}
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 586101597}
-    - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 586101596}
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
@@ -1800,9 +1789,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 586101607}
-    - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1936219314}
     - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1936219313}
