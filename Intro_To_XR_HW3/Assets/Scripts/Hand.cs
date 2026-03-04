@@ -19,8 +19,8 @@ public class Hand : MonoBehaviour
 
     //Physics Movement
     [SerializeField] private GameObject followObject;
-    [SerializeField] private float followSpeed = 30f;
-    [SerializeField] private float rotateSpeed = 100f;
+    [SerializeField] private float followSpeed;
+    [SerializeField] private float rotateSpeed;
     [SerializeField] private Vector3 positionOffset;
     [SerializeField] private Vector3 rotationOffset;
     private Transform _followTarget;
@@ -58,19 +58,35 @@ public class Hand : MonoBehaviour
     private void PhysicsMove()
     {
         // Position
-        var rotatedPositionOffset = _rigidbody.rotation * positionOffset;
-        var positionWithOffset = _followTarget.position + rotatedPositionOffset;
+        var positionWithOffset = _followTarget.position + (_rigidbody.rotation * positionOffset);
         var distance = Vector3.Distance(positionWithOffset, transform.position);
         _rigidbody.linearVelocity = (positionWithOffset - transform.position).normalized * (followSpeed * distance);
-        // var positionWithOffset = _followTarget.position + (_followTarget.rotation * positionOffset);
+        
+        // Using MovePosition. This made the hands act uncontrollably, maybe because of overcompensation, so I will not use it.
         // _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, positionWithOffset, followSpeed * Time.fixedDeltaTime));
+        
+        // Directly setting position. This made the hands flicker all the time, so I will not use it. 
+        // _rigidbody.position = positionWithOffset;
 
         // Rotation
         var rotationWithOffset = _followTarget.rotation * Quaternion.Euler(rotationOffset);
         var rotationDifference = rotationWithOffset * Quaternion.Inverse(_rigidbody.rotation);
         rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
-        _rigidbody.angularVelocity = axis * (angle * Mathf.Deg2Rad * rotateSpeed);
+        if (axis.sqrMagnitude < 1e-6f || Mathf.Approximately(angle, 0f))
+        {
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+        else
+        {
+            if (angle > 180f) angle -= 360f;
+            Vector3 axisNormalized = axis.normalized;
+            _rigidbody.angularVelocity = axisNormalized * (angle * Mathf.Deg2Rad * rotateSpeed);
+        }
+        // Using MoveRotation. This made the hands spin uncontrollably, maybe because of overcompensation, so I will not use it.
         // _rigidbody.MoveRotation(Quaternion.RotateTowards(_rigidbody.rotation, rotationWithOffset, rotateSpeed * Time.fixedDeltaTime));
+        
+        // Directly setting rotation. This made the hands flicker all the time, so I will not use it.
+        // _rigidbody.rotation = rotationWithOffset;
     }
 
     internal void SetGrip(float v)

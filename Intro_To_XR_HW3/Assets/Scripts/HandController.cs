@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class HandController : MonoBehaviour
 {
-    public Hand hand;
+    [SerializeField] private Hand hand;
     HandController otherHand = null;
 
     public InputActionReference gripAction;
@@ -30,6 +30,9 @@ public class HandController : MonoBehaviour
             if (c != this)
                 otherHand = c;
         }
+
+        lastPosition = transform.position;
+        lastRotation = transform.rotation; 
     }
 
     void OnEnable()
@@ -53,7 +56,7 @@ public class HandController : MonoBehaviour
     {
         hand.SetGrip(gripAction.action.ReadValue<float>());
         hand.SetTrigger(triggerAction.action.ReadValue<float>());
-        Grabbing();  
+        // Grabbing(); Transferred to using XRI Grab Interactable, because this doesn't work well with gravity.
     }
 
     private void Grabbing()
@@ -67,28 +70,43 @@ public class HandController : MonoBehaviour
         {
             // Grab nearby object or the object in the other hand
             if (!grabbedObject)
-                grabbedObject = nearObjects.Count > 0 ? nearObjects[0] : otherHand.grabbedObject;
+                grabbedObject = nearObjects.Count > 0 ? nearObjects[0] : (otherHand ? otherHand.grabbedObject : null);
 
             if (grabbedObject)
             {
                 // Change these to add the delta position and rotation instead
                 // Save the position and rotation at the end of Update function, so you can compare previous pos/rot to current here
-                grabbedObject.position += deltaPos;
-                Vector3 offset = grabbedObject.position - transform.position;
+                Transform objectToMove = grabbedObject.parent ? grabbedObject.parent : grabbedObject;
+                Rigidbody rigidbody = objectToMove.GetComponent<Rigidbody>();
+                if(rigidbody != null && !rigidbody.isKinematic)
+                {
+                    rigidbody.isKinematic = true;
+                    rigidbody.useGravity = false;
+                }
+                objectToMove.position += deltaPos;
+                Vector3 offset = objectToMove.position - transform.position;
                 if (doubleRotationEnabled)
                 {
                     deltaRot.ToAngleAxis(out float angle, out Vector3 axis);
                     deltaRot = Quaternion.AngleAxis(angle * 2f, axis);
                 }
                     
-                grabbedObject.position = transform.position + (deltaRot * offset);
-                grabbedObject.rotation = deltaRot * grabbedObject.rotation;
+                objectToMove.position = transform.position + (deltaRot * offset);
+                objectToMove.rotation = deltaRot * objectToMove.rotation;
             }
         }
         // If let go of button, release object
         else if (grabbedObject)
+        {
+            Transform objectToMove = grabbedObject.parent ? grabbedObject.parent : grabbedObject;
+            Rigidbody rigidbody = objectToMove.GetComponent<Rigidbody>();
+            if(rigidbody != null)
+            {
+                rigidbody.isKinematic = false; // Re-enable physics when releasing
+                rigidbody.useGravity = true;
+            }
             grabbedObject = null;
-
+        }
         // Should save the current position and rotation here
         lastPosition = transform.position;
         lastRotation = transform.rotation; 
